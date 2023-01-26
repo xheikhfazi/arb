@@ -1,1 +1,1 @@
-web: node kl.ts
+web:node kl.ts
