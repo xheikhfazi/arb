@@ -1,1 +1,1 @@
-web: node kl.ts
+worker: node kl.ts
