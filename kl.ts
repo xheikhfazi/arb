@@ -101,5 +101,5 @@ async function checkArbitrage() {
         //   setTimeout(() => {}, interval); // wait for 4 seconds
         // }
         
- setInterval(checkArbitrage,4000);
+ setInterval(checkArbitrage,5000);
    
