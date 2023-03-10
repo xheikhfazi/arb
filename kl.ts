@@ -415,86 +415,89 @@ async function checkArbitrage() {
 
 
       let profit=100.08; 
-
 	  let isTransactionSent = false;
-	  if (!isTransactionSent && sellPrice1 >= profit && sellPrice1 > sellPrice2)
-	  {
+	  if (!isTransactionSent && sellPrice1 >= profit && sellPrice1 > sellPrice2) {
 		  console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 		  console.log("Buy at PARA and Sell at INCH");
-
-		  if(ParaData_B.toToken != undefined)
-		  {
-  
-		  console.log(end_I);
-		  const nonce = await web3.eth.getTransactionCount(myWalletAddress);
-		  const gasPrice = await web3.eth.getGasPrice();
-		  const gasLimit = 3000000; // or your desired gas limit
-		  const value = 0; // or your desired ether value to send with the transaction
-		  let dex=2;
-		  const data = contract.methods.requestFlashLoan(fromTokenAddress1, InchData_S , toTokenAddress1 , ParaData_B,amount2 , end_I ,dex).encodeABI();
-		  
-		  const txObject = {
-			nonce,
-			gasPrice,
-			gasLimit,
-			to: contractAddress,
-			value,
-			data
-		  };
-		  
-		  const signedTx = await web3.eth.accounts.signTransaction(txObject, privateKey);
-		  const transactionHash = await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
-		  console.log('Transaction hash:', transactionHash);
-		  isTransactionSent = true;
-
-		}
-		else
-		{
-			console.log("GOT UNDEFINEDDDD");
-			console.log(ParaData_B.toToken)
-		}
+	  
+		  if (ParaData_B.toToken != undefined) {
+			  console.log(end_I);
+			  const nonce = await web3.eth.getTransactionCount(myWalletAddress);
+			  const gasPrice = await web3.eth.getGasPrice();
+			  const gasLimit = 3000000; // or your desired gas limit
+			  const value = 0; // or your desired ether value to send with the transaction
+			  let dex = 2;
+			  const data = contract.methods.requestFlashLoan(fromTokenAddress1, InchData_S, toTokenAddress1, ParaData_B, amount2, end_I, dex).encodeABI();
+	  
+			  const txObject = {
+				  nonce,
+				  gasPrice,
+				  gasLimit,
+				  to: contractAddress,
+				  value,
+				  data
+			  };
+	  
+			  const signedTx = await web3.eth.accounts.signTransaction(txObject, privateKey);
+			  const txPromise = web3.eth.sendSignedTransaction(signedTx.rawTransaction);
+	  
+			  console.log('Transaction sent with hash:', signedTx.transactionHash);
+	  
+			  await txPromise.once('confirmation', (confirmationNumber, receipt) => {
+				  console.log('Transaction confirmed with', confirmationNumber, 'confirmations');
+				  isTransactionSent = false;
+			  });
+	  
+			  isTransactionSent = true;
+	  
+		  } else {
+			  console.log("GOT UNDEFINEDDDD");
+			  console.log(ParaData_B.toToken)
+		  }
+	  } else if (!isTransactionSent && sellPrice2 >= profit && sellPrice2 > sellPrice1) {
+	  
+		  console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		  console.log("Buy at 1INCH and Sell at PARA");
+	  
+		  if (ParaData_B.toToken != undefined) {
+	  
+			  console.log(end_P);
+			  const nonce = await web3.eth.getTransactionCount(myWalletAddress);
+			  const gasPrice = await web3.eth.getGasPrice();
+			  const gasLimit = 3000000; // or your desired gas limit
+			  const value = 0; // or your desired ether value to send with the transaction
+			  let dex = 1;
+			  const data = contract.methods.requestFlashLoan(fromTokenAddress1, InchData_B, toTokenAddress1, ParaData_S, amount2, end_P, dex).encodeABI();
+	  
+			  const txObject = {
+				  nonce,
+				  gasPrice,
+				  gasLimit,
+				  to: contractAddress,
+				  value,
+				  data
+			  };
+	  
+			  const signedTx = await web3.eth.accounts.signTransaction(txObject, privateKey);
+			  const txPromise = web3.eth.sendSignedTransaction(signedTx.rawTransaction);
+	  
+			  console.log('Transaction sent with hash:', signedTx.transactionHash);
+	  
+			  await txPromise.once('confirmation', (confirmationNumber, receipt) => {
+				  console.log('Transaction confirmed with', confirmationNumber, 'confirmations');
+				  isTransactionSent = false;
+			  });
+	  
+			  isTransactionSent = true;
+	  
+		  } else {
+			  console.log("GOT UNDEFINEDDDD");
+			  console.log(ParaData_B.toToken)
+		  }
+	  } else {
+		  console.log("NO ARBItrage");
 	  }
-	  else if (!isTransactionSent && sellPrice2 >= profit && sellPrice2 > sellPrice1)
-      {
-
-        console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        console.log("Buy at 1INCH and Sell at PARA");
-		
-		if(ParaData_B.toToken != undefined)
-		{
-
-        console.log(end_P);
-        const nonce = await web3.eth.getTransactionCount(myWalletAddress);
-        const gasPrice = await web3.eth.getGasPrice();
-        const gasLimit = 3000000; // or your desired gas limit
-        const value = 0; // or your desired ether value to send with the transaction
-        let dex=1;
-        const data = contract.methods.requestFlashLoan(fromTokenAddress1, InchData_B , toTokenAddress1 , ParaData_S,amount2 , end_P ,dex).encodeABI();
-        
-        const txObject = {
-          nonce,
-          gasPrice,
-          gasLimit,
-          to: contractAddress,
-          value,
-          data
-        };
-        
-        const signedTx = await web3.eth.accounts.signTransaction(txObject, privateKey);
-        const transactionHash = await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
-        console.log('Transaction hash:', transactionHash);
-		isTransactionSent = true;
-
-	   }else
-	   {
-		   console.log("GOT UNDEFINEDDDD");
-		   console.log(ParaData_B.toToken)
-	   }
-    }
-    else
-    {
-        console.log("NO ARBItrage");
-    }
+	  
     console.log("_________________________________");
 
 
