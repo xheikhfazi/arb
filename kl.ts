@@ -1,5 +1,5 @@
 const axios = require('axios');
-const Web3 = require('web3');
+// const Web3 = require('web3');
 const axiosRateLimit = require('axios-rate-limit');
 const BigNumber = require('bignumber.js');
 
@@ -7,7 +7,7 @@ const API_URL1 = 'https://api.1inch.io/v5.0/137/quote';
 const API_URL2 = 'https://apiv5.paraswap.io/prices/';
 const Inchswap_route = 'https://api.1inch.io/v5.0/137/swap';
 
-const web3 = new Web3(new Web3.providers.HttpProvider('https://crimson-special-sanctuary.matic.discover.quiknode.pro/b7817425d4cb289e007421eb40c2d26886cde38e/'));
+// const web3 = new Web3(new Web3.providers.HttpProvider('https://crimson-special-sanctuary.matic.discover.quiknode.pro/b7817425d4cb289e007421eb40c2d26886cde38e/'));
 
 
 
@@ -265,8 +265,8 @@ const sender = '0x41218496Cfd4a4647b2D8433C2A102C778a0612a';
 const myWalletAddress = '0x1154296960b71b73A4079E5b00575F3d70d10f6b';
 const privateKey = 'c541db76c04c366bd72fb24b19ef260b5f035140684498db4e52273feaf2c46d';
 
-const contractAddress = '0xe33645fd5BbdAA65272Fe51E64cC41eCC4c7540D';
-const contract = new web3.eth.Contract(Abi, contractAddress );
+// const contractAddress = '0xe33645fd5BbdAA65272Fe51E64cC41eCC4c7540D';
+// const contract = new web3.eth.Contract(Abi, contractAddress );
 
 
 
@@ -282,7 +282,7 @@ let end_I;
 
 //<*******   INITIALIZAION CALLING   ********>
 const fromTokenAddress1 = '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174';
-const toTokenAddress1 = '0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619';
+const toTokenAddress1 = '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270';
 const amount2 = '100000000';
 const srcDec = 6;
 const desDec = 18;
@@ -414,7 +414,7 @@ async function checkArbitrage() {
 
 
 
-      let profit=100.08; 
+      let profit=101; 
 	  let isTransactionSent = false;
 	  if (!isTransactionSent && sellPrice1 >= profit && sellPrice1 > sellPrice2) {
 		  console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
@@ -422,33 +422,33 @@ async function checkArbitrage() {
 	  
 		  if (ParaData_B.toToken != undefined) {
 			  console.log(end_I);
-			  const nonce = await web3.eth.getTransactionCount(myWalletAddress);
-			  const gasPrice = await web3.eth.getGasPrice();
-			  const gasLimit = 3000000; // or your desired gas limit
-			  const value = 0; // or your desired ether value to send with the transaction
-			  let dex = 2;
-			  const data = contract.methods.requestFlashLoan(fromTokenAddress1, InchData_S, toTokenAddress1, ParaData_B, amount2, end_I, dex).encodeABI();
+			//   const nonce = await web3.eth.getTransactionCount(myWalletAddress);
+			//   const gasPrice = await web3.eth.getGasPrice();
+			//   const gasLimit = 3000000; // or your desired gas limit
+			//   const value = 0; // or your desired ether value to send with the transaction
+			//   let dex = 2;
+			//   const data = contract.methods.requestFlashLoan(fromTokenAddress1, InchData_S, toTokenAddress1, ParaData_B, amount2, end_I, dex).encodeABI();
 	  
-			  const txObject = {
-				  nonce,
-				  gasPrice,
-				  gasLimit,
-				  to: contractAddress,
-				  value,
-				  data
-			  };
+			//   const txObject = {
+			// 	  nonce,
+			// 	  gasPrice,
+			// 	  gasLimit,
+			// 	  to: contractAddress,
+			// 	  value,
+			// 	  data
+			//   };
 	  
-			  const signedTx = await web3.eth.accounts.signTransaction(txObject, privateKey);
-			  const txPromise = web3.eth.sendSignedTransaction(signedTx.rawTransaction);
+			//   const signedTx = await web3.eth.accounts.signTransaction(txObject, privateKey);
+			//   const txPromise = web3.eth.sendSignedTransaction(signedTx.rawTransaction);
 	  
-			  console.log('Transaction sent with hash:', signedTx.transactionHash);
+			//   console.log('Transaction sent with hash:', signedTx.transactionHash);
 	  
-			  await txPromise.once('confirmation', (confirmationNumber, receipt) => {
-				  console.log('Transaction confirmed with', confirmationNumber, 'confirmations');
-				  isTransactionSent = false;
-			  });
+			//   await txPromise.once('confirmation', (confirmationNumber, receipt) => {
+			// 	  console.log('Transaction confirmed with', confirmationNumber, 'confirmations');
+			// 	  isTransactionSent = false;
+			//   });
 	  
-			  isTransactionSent = true;
+			//   isTransactionSent = true;
 	  
 		  } else {
 			  console.log("GOT UNDEFINEDDDD");
@@ -462,33 +462,33 @@ async function checkArbitrage() {
 		  if (ParaData_B.toToken != undefined) {
 	  
 			  console.log(end_P);
-			  const nonce = await web3.eth.getTransactionCount(myWalletAddress);
-			  const gasPrice = await web3.eth.getGasPrice();
-			  const gasLimit = 3000000; // or your desired gas limit
-			  const value = 0; // or your desired ether value to send with the transaction
-			  let dex = 1;
-			  const data = contract.methods.requestFlashLoan(fromTokenAddress1, InchData_B, toTokenAddress1, ParaData_S, amount2, end_P, dex).encodeABI();
+	// 		  const nonce = await web3.eth.getTransactionCount(myWalletAddress);
+	// 		  const gasPrice = await web3.eth.getGasPrice();
+	// 		  const gasLimit = 3000000; // or your desired gas limit
+	// 		  const value = 0; // or your desired ether value to send with the transaction
+	// 		  let dex = 1;
+	// 		  const data = contract.methods.requestFlashLoan(fromTokenAddress1, InchData_B, toTokenAddress1, ParaData_S, amount2, end_P, dex).encodeABI();
 	  
-			  const txObject = {
-				  nonce,
-				  gasPrice,
-				  gasLimit,
-				  to: contractAddress,
-				  value,
-				  data
-			  };
-	  ////asda
-			  const signedTx = await web3.eth.accounts.signTransaction(txObject, privateKey);
-			  const txPromise = web3.eth.sendSignedTransaction(signedTx.rawTransaction);
+	// 		  const txObject = {
+	// 			  nonce,
+	// 			  gasPrice,
+	// 			  gasLimit,
+	// 			  to: contractAddress,
+	// 			  value,
+	// 			  data
+	// 		  };
+	//   ////asda
+	// 		  const signedTx = await web3.eth.accounts.signTransaction(txObject, privateKey);
+	// 		  const txPromise = web3.eth.sendSignedTransaction(signedTx.rawTransaction);
 	  
-			  console.log('Transaction sent with hash:', signedTx.transactionHash);
+	// 		  console.log('Transaction sent with hash:', signedTx.transactionHash);
 	  
-			  await txPromise.once('confirmation', (confirmationNumber, receipt) => {
-				  console.log('Transaction confirmed with', confirmationNumber, 'confirmations');
-				  isTransactionSent = false;
-			  });
+	// 		  await txPromise.once('confirmation', (confirmationNumber, receipt) => {
+	// 			  console.log('Transaction confirmed with', confirmationNumber, 'confirmations');
+	// 			  isTransactionSent = false;
+	// 		  });
 	  
-			  isTransactionSent = true;
+	// 		  isTransactionSent = true;
 	  
 		  } else {
 			  console.log("GOT UNDEFINEDDDD");
